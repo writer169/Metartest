@@ -1,0 +1,5 @@
+{
+  "name": "METAR Temperature Display",
+  "description": "A web application that fetches a METAR weather report from tgftp.nws.noaa.gov for station UAAA, parses it, and displays the current temperature in a large, clear font.",
+  "requestFramePermissions": []
+}
