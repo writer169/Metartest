@@ -79,14 +79,25 @@ const App: React.FC = () => {
 
   const formatUpdateTime = (date: Date | null): string => {
     if (!date) return '';
-    // Форматирование даты для таймзоны UTC+5 (Алматы)
-    return new Intl.DateTimeFormat('ru-RU', {
-        month: 'long',
-        day: 'numeric',
-        hour: '2-digit',
-        minute: '2-digit',
-        timeZone: 'Asia/Almaty'
-    }).format(date);
+
+    // Вручную добавляем 5 часов (UTC+5) к времени UTC
+    const offsetMilliseconds = 5 * 60 * 60 * 1000;
+    const almatyDate = new Date(date.getTime() + offsetMilliseconds);
+
+    // Получаем компоненты даты через UTC-методы, чтобы избежать влияния локальной таймзоны клиента
+    const day = almatyDate.getUTCDate();
+    const monthIndex = almatyDate.getUTCMonth();
+    const hours = almatyDate.getUTCHours().toString().padStart(2, '0');
+    const minutes = almatyDate.getUTCMinutes().toString().padStart(2, '0');
+
+    const monthNames = [
+        'января', 'февраля', 'марта', 'апреля', 'мая', 'июня',
+        'июля', 'августа', 'сентября', 'октября', 'ноября', 'декабря'
+    ];
+    
+    const monthName = monthNames[monthIndex];
+
+    return `${day} ${monthName}, ${hours}:${minutes}`;
   };
 
   return (
